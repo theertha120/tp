@@ -1,21 +1,27 @@
 package seedu.internsprint.internship;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class InternshipList {
-    private final ArrayList<Internship> internships;
+    private final HashMap<String, ArrayList<Internship>> internshipMap;
     public int internshipCount = 0;
 
     public InternshipList() {
-        internships = new ArrayList<>();
+        internshipMap = new HashMap<>();
+        internshipMap.put("software", new ArrayList<>());
+        internshipMap.put("hardware", new ArrayList<>());
+        internshipMap.put("general", new ArrayList<>());
     }
 
     public void addInternship(Internship internship) {
-        internships.add(internship);
+        String type = internship.getType();
+        internshipMap.get(type).add(internship);
         internshipCount++;
     }
 
     public boolean contains(Internship internship) {
-        return internships.contains(internship);
+        String type = internship.getType();
+        return internshipMap.get(type).contains(internship);
     }
 }

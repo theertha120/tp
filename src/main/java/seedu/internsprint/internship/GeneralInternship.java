@@ -12,4 +12,9 @@ public class GeneralInternship extends Internship {
     public String toString() {
         return "Company: " + companyName + ", Role: " + role;
     }
+
+    @Override
+    public String getType() {
+        return "general";
+    }
 }

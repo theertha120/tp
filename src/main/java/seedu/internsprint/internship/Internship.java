@@ -11,4 +11,6 @@ public abstract class Internship {
 
     @Override
     public abstract String toString();
+
+    public abstract String getType();
 }
