@@ -1,6 +1,8 @@
 package seedu.internsprint.handler;
 
-import seedu.internsprint.command.AddCommand;
+import seedu.internsprint.command.AddGeneralCommand;
+import seedu.internsprint.command.AddHardwareCommand;
+import seedu.internsprint.command.AddSoftwareCommand;
 import seedu.internsprint.command.ByeCommand;
 import seedu.internsprint.command.Command;
 import seedu.internsprint.util.InternSprintExceptionMessages;
@@ -11,14 +13,20 @@ import java.util.regex.Pattern;
 
 public class Parser {
     public static Command parseCommand(String userInput) {
-        String[] commandTypeAndParams = userInput.trim().split(" ", 2);
+        String[] commandTypeAndParams = splitCommandTypeAndParams(userInput.trim());
         String commandType = commandTypeAndParams[0];
         String params = commandTypeAndParams.length > 1 ? commandTypeAndParams[1] : "";
 
         Command command;
         switch (commandType) {
-        case "add":
-            command = new AddCommand();
+        case "add software":
+            command = new AddSoftwareCommand();
+            break;
+        case "add hardware":
+            command = new AddHardwareCommand();
+            break;
+        case "add general":
+            command = new AddGeneralCommand();
             break;
         case "bye":
             command = new ByeCommand();
@@ -28,6 +36,20 @@ public class Parser {
         }
         parseKeyValuePairs(params, command);
         return command;
+    }
+
+    private static String[] splitCommandTypeAndParams(String userInput) {
+        String[] multiWordCommands = {"add software", "add hardware", "add general"};
+        for (String command : multiWordCommands) {
+            if (userInput.startsWith(command)) {
+                return new String[]{command, userInput.substring(command.length()).trim()};
+            }
+        }
+        String[] commandTypeAndParams = userInput.split(" ", 2);
+        String commandType = commandTypeAndParams[0];
+        String params = commandTypeAndParams.length > 1 ? commandTypeAndParams[1] : "";
+
+        return new String[]{commandType, params};
     }
 
     private static void parseKeyValuePairs(String params, Command command) {

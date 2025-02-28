@@ -11,27 +11,30 @@ import static seedu.internsprint.util.InternSprintMessages.ADD_MESSAGE_SUCCESS;
 import static seedu.internsprint.util.InternSprintMessages.MESSAGE_DUPLICATE_INTERNSHIP;
 import static seedu.internsprint.util.InternSprintMessages.LIST_COUNT_MESSAGE;
 
-public class AddCommand extends Command {
-    public static final String COMMAND_WORD = "add";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an internship to the internship list.\n"
-            + "Parameters: " + "/c COMPANY_NAME " + "/r ROLE\n"
-            + "Example: " + COMMAND_WORD + " /c Google " + "/r Software Engineer";
-    public static final String[] REQUIRED_PARAMETERS = {"/c", "/r"};
+public abstract class AddCommand extends Command {
+    protected final Set<String> requiredParameters;
+
+    public AddCommand(Set<String> requiredParameters) {
+        this.requiredParameters = requiredParameters;
+    }
 
     protected boolean isValidParameters() {
-        return parameters.keySet().containsAll(Set.of(REQUIRED_PARAMETERS));
+        return parameters.keySet().containsAll(requiredParameters);
     }
+
+    protected abstract String getUsageMessage();
+    protected abstract Internship createInternship();
 
     @Override
     public CommandResult execute(InternshipList internships) {
         CommandResult result;
         if (!isValidParameters()) {
-            result = new CommandResult(MESSAGE_USAGE);
+            result = new CommandResult(getUsageMessage());
             result.setSuccessful(false);
             return result;
         }
 
-        Internship toAdd = new Internship(parameters.get("/c"), parameters.get("/r"));
+        Internship toAdd = createInternship();
 
         if (internships.contains(toAdd)) {
             result = new CommandResult(MESSAGE_DUPLICATE_INTERNSHIP);

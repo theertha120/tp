@@ -5,7 +5,7 @@ import seedu.internsprint.command.CommandResult;
 import java.util.Scanner;
 
 import static seedu.internsprint.util.InternSprintMessages.BYE_MESSAGE;
-import static seedu.internsprint.util.InternSprintMessages.WELOME_MESSAGE;
+import static seedu.internsprint.util.InternSprintMessages.WELCOME_MESSAGE;
 
 public class Ui {
     private static final String DIVIDER = "===================================================";
@@ -19,7 +19,7 @@ public class Ui {
 
     public static void showWelcomeMessage() {
         System.out.println(DIVIDER);
-        System.out.println(WELOME_MESSAGE);
+        System.out.println(WELCOME_MESSAGE);
         System.out.println(DIVIDER);
         System.out.println();
     }

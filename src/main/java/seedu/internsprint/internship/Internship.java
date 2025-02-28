@@ -1,6 +1,6 @@
 package seedu.internsprint.internship;
 
-public class Internship {
+public abstract class Internship {
     protected String companyName;
     protected String role;
 
@@ -10,7 +10,5 @@ public class Internship {
     }
 
     @Override
-    public String toString() {
-        return "Company: " + companyName + ", Role: " + role;
-    }
+    public abstract String toString();
 }
