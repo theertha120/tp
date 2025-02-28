@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class InternshipList {
     private final HashMap<String, ArrayList<Internship>> internshipMap;
-    public int internshipCount = 0;
+    private int internshipCount = 0;
 
     public InternshipList() {
         internshipMap = new HashMap<>();
@@ -23,5 +23,9 @@ public class InternshipList {
     public boolean contains(Internship internship) {
         String type = internship.getType();
         return internshipMap.get(type).contains(internship);
+    }
+
+    public int getInternshipCount() {
+        return internshipCount;
     }
 }

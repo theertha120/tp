@@ -23,6 +23,7 @@ public abstract class AddCommand extends Command {
     }
 
     protected abstract String getUsageMessage();
+
     protected abstract Internship createInternship();
 
     @Override
@@ -47,7 +48,7 @@ public abstract class AddCommand extends Command {
         internships.addInternship(toAdd);
         feedback.add(ADD_MESSAGE_SUCCESS);
         feedback.add(toAdd.toString());
-        feedback.add(String.format(LIST_COUNT_MESSAGE, internships.internshipCount));
+        feedback.add(String.format(LIST_COUNT_MESSAGE, internships.getInternshipCount()));
         result = new CommandResult(feedback);
         result.setSuccessful(true);
         return result;
