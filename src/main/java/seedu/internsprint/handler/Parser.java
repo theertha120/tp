@@ -85,7 +85,8 @@ public class Parser {
 
         String unmatched = matcher.replaceAll("").trim();
         if (!unmatched.isEmpty()) {
-            throw new IllegalArgumentException(String.format(InternSprintExceptionMessages.MISSING_COMMAND_INPUT, unmatched));
+            throw new IllegalArgumentException(
+                    String.format(InternSprintExceptionMessages.MISSING_COMMAND_INPUT, unmatched));
         }
 
         command.setParameters(keyValueMap);
