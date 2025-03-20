@@ -25,8 +25,11 @@ import static seedu.internsprint.util.InternSprintExceptionMessages.UNABLE_TO_WR
 import static seedu.internsprint.util.InternSprintExceptionMessages.UNABLE_TO_READ_FILE;
 
 import static seedu.internsprint.util.InternSprintMessages.LOADING_DATA_SUCCESS;
-//import static seedu.internsprint.util.InternSprintMessages.LOADING_DATA_FIRST_TIME;
+import static seedu.internsprint.util.InternSprintMessages.LOADING_DATA_FIRST_TIME;
 
+/**
+ * Handles the reading and writing of data to the file.
+ */
 public class StorageHandler {
     private static final String FILE_PATH = Paths.get("data", "internships.txt").toString();
     private static File file;
@@ -35,6 +38,9 @@ public class StorageHandler {
         file = new File(FILE_PATH);
     }
 
+    /**
+     * Creates the file if it does not exist.
+     */
     public static void createFile() {
         try {
             if (file.getParentFile() != null && !file.getParentFile().exists()) {
@@ -53,6 +59,11 @@ public class StorageHandler {
         }
     }
 
+    /**
+     * Saves the internships to the file.
+     *
+     * @param internships List of internships to be saved.
+     */
     public void saveInternships(InternshipList internships) {
         JSONArray jsonArray = new JSONArray();
         internships.getInternshipMap().forEach((type, list) -> {
@@ -70,10 +81,16 @@ public class StorageHandler {
         }
     }
 
+    /**
+     * Loads the internships from the file.
+     *
+     * @param internships List of internships to be loaded.
+     * @return CommandResult object indicating the success of the operation.
+     */
     public static CommandResult loadInternships(InternshipList internships) {
         CommandResult result;
-        if (!file.exists()|| file.length() == 0) {
-            result = new CommandResult(LOADING_DATA_SUCCESS);
+        if (!file.exists() || file.length() == 0) {
+            result = new CommandResult(LOADING_DATA_FIRST_TIME);
             result.setSuccessful(true);
             return result;
         }
@@ -102,6 +119,11 @@ public class StorageHandler {
         return result;
     }
 
+    /**
+     * Returns a CommandResult object indicating that there was an error reading the file.
+     *
+     * @return CommandResult object indicating the error.
+     */
     private static CommandResult errorReadingFile() {
         CommandResult result;
         List<String> feedback = new ArrayList<>();
@@ -111,6 +133,12 @@ public class StorageHandler {
         return result;
     }
 
+    /**
+     * Adds the internship to the list of internships.
+     *
+     * @param internships List of internships.
+     * @param internshipJson JSON object representing the internship.
+     */
     private static void addInternshipToList(InternshipList internships, JSONObject internshipJson) {
         switch (internshipJson.getString("type")) {
         case "general":

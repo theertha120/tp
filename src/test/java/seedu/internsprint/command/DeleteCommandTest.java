@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class DeleteCommandTest {
     @Test
-    void deleteCommand_provideCorrectCategoryAndIndex_returnsValid() {
+    void deleteCommand_provideCorrectIndex_returnsValid() {
         AddGeneralCommand addGeneralCommand1 = new AddGeneralCommand();
         addGeneralCommand1.parameters.put("/c", "Google");
         addGeneralCommand1.parameters.put("/r", "Software Engineer");
@@ -20,23 +20,25 @@ class DeleteCommandTest {
         addGeneralCommand2.parameters.put("/c", "JP Morgan");
         addGeneralCommand2.parameters.put("/r", "Data Engineer");
         addGeneralCommand2.parameters.put("/dept", "Engineering");
-        DeleteCommand deleteCommand = new DeleteCommand("general", 2);
+        DeleteCommand deleteCommand = new DeleteCommand();
+        deleteCommand.parameters.put("/index", "1");
         assertTrue(deleteCommand.isValidParameters());
     }
 
     @Test
-    void deleteCommand_provideInvalidCategory_returnsInvalid() {
-        DeleteCommand deleteCommand = new DeleteCommand("HR", 1);
+    void deleteCommand_provideMissingIndex_returnsInvalid() {
+        DeleteCommand deleteCommand = new DeleteCommand();
         CommandResult result = deleteCommand.execute(new InternshipList());
-        assertEquals(InternSprintExceptionMessages.INVALID_CATEGORY_ERROR, result.getFeedbackToUser().get(0));
+        assertFalse(deleteCommand.isValidParameters());
         assertFalse(result.isSuccessful());
     }
 
     @Test
     void deleteCommand_provideInvalidIndex_returnsInvalid() {
-        DeleteCommand deleteCommand = new DeleteCommand("general", -1);
+        DeleteCommand deleteCommand = new DeleteCommand();
+        deleteCommand.parameters.put("/index", "-1");
         CommandResult result = deleteCommand.execute(new InternshipList());
-        assertEquals(InternSprintExceptionMessages.INVALID_INDEX_ERROR, result.getFeedbackToUser().get(0));
+        assertEquals(InternSprintExceptionMessages.INVALID_INDEX_RANGE, result.getFeedbackToUser().get(0));
         assertFalse(result.isSuccessful());
     }
 
@@ -55,9 +57,10 @@ class DeleteCommandTest {
         addHardwareCommand2.parameters.put("/tech", "Engineering");
         addHardwareCommand2.execute(internshipList);
 
-        DeleteCommand deleteCommand = new DeleteCommand("hardware", 3);
+        DeleteCommand deleteCommand = new DeleteCommand();
+        deleteCommand.parameters.put("/index", "3");
         CommandResult result = deleteCommand.execute(internshipList);
-        assertEquals(InternSprintExceptionMessages.INVALID_INDEX_ERROR, result.getFeedbackToUser().get(0));
+        assertEquals(InternSprintExceptionMessages.INVALID_INDEX_RANGE, result.getFeedbackToUser().get(0));
         assertFalse(result.isSuccessful());
     }
 

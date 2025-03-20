@@ -3,19 +3,21 @@ package seedu.internsprint.command;
 import seedu.internsprint.handler.Parser;
 import seedu.internsprint.internship.Internship;
 import seedu.internsprint.internship.InternshipList;
-import seedu.internsprint.util.InternSprintMessages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import static seedu.internsprint.util.InternSprintExceptionMessages.MISSING_INDEX;
+import static seedu.internsprint.util.InternSprintExceptionMessages.DESC_INVALID_PARAMS;
+import static seedu.internsprint.util.InternSprintExceptionMessages.DESC_UNABLE_TO_FIND_INTERNSHIP;
+import static seedu.internsprint.util.InternSprintMessages.DESC_MESSAGE_SUCCESS;
 
-public class DeleteCommand extends Command {
-    public static final String COMMAND_WORD = "delete";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Deletes an internship " +
-        "based on its category and index.\n"
-        + "    Parameters: " + "/index INDEX_OF_INTERNSHIP \n"
-        + "    Example: " + COMMAND_WORD + " /index 2";
+public class DescriptionCommand extends Command {
+    public static final String COMMAND_WORD = "desc";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Shows the description of a particular internship.\n"
+            + "    Parameter: " + "/index INDEX_OF_INTERNSHIP\n"
+            + "    Example: " + COMMAND_WORD + " /index 1 ";
     public static final String[] REQUIRED_PARAMETERS = {"/index"};
 
     @Override
@@ -30,7 +32,7 @@ public class DeleteCommand extends Command {
         List<String> feedback = new ArrayList<>();
 
         if (!isValidParameters()) {
-            feedback.add(MISSING_INDEX);
+            feedback.add(DESC_INVALID_PARAMS);
             feedback.add(MESSAGE_USAGE);
             result = new CommandResult(feedback);
             result.setSuccessful(false);
@@ -50,24 +52,20 @@ public class DeleteCommand extends Command {
         int index = Integer.parseInt(validIndex[1]);
         String type = validIndex[0];
 
-        Internship internshipToDelete = internships.getInternshipMap().get(type).get(index);
-        internships.deleteInternship(type, index);
+        HashMap<String, ArrayList<Internship>> internshipMap = internships.getInternshipMap();
+        Internship foundInternship = internshipMap.get(type).get(index);
 
-        try {
-            internships.saveInternships();
-            feedback.add(InternSprintMessages.SAVE_SUCCESS_MESSAGE);
-        } catch (Exception e) {
-            feedback.add(e.getMessage());
-            result = new CommandResult(feedback);
+        if (foundInternship == null) {
+            result = new CommandResult(DESC_UNABLE_TO_FIND_INTERNSHIP);
             result.setSuccessful(false);
             return result;
         }
 
-        feedback.add(String.format(InternSprintMessages.SUCCESSFUL_DELETE, internshipToDelete));
+        feedback.add(DESC_MESSAGE_SUCCESS);
+        feedback.addAll(foundInternship.toDescription());
         result = new CommandResult(feedback);
         result.setSuccessful(true);
         return result;
+
     }
 }
-
-

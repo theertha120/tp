@@ -24,7 +24,6 @@ public class Ui {
         System.out.println(LOGO);
         System.out.println(WELCOME_MESSAGE);
         System.out.println(DIVIDER);
-        System.out.println();
     }
 
     public static void showExitMessage() {
@@ -33,6 +32,7 @@ public class Ui {
     }
 
     public static void showError(String message) {
+        System.out.println(DIVIDER);
         System.out.println("    " + ERROR_PREFIX + message);
         System.out.println(DIVIDER);
     }
@@ -40,23 +40,22 @@ public class Ui {
     public static void showError(List<String> messages) {
         System.out.println("    " + ERROR_PREFIX + messages.get(0));
         for (int i = 1; i < messages.size(); i++) {
-            System.out.println(messages.get(i));
+            System.out.println("    " + messages.get(i));
         }
-        System.out.println(DIVIDER);
     }
 
     public static void showResultToUser(CommandResult result) {
-        System.out.println(DIVIDER);
         if (result.isSuccessful()) {
+            System.out.println(DIVIDER);
             for (String feedback : result.getFeedbackToUser()) {
                 System.out.println("    " + feedback);
             }
             System.out.println(DIVIDER);
         } else {
+            System.out.println(DIVIDER);
             showError(result.getFeedbackToUser());
+            System.out.println(DIVIDER);
         }
-
-
     }
 
     public static String getUserCommand() {

@@ -7,6 +7,9 @@ import seedu.internsprint.handler.StorageHandler;
 import seedu.internsprint.internship.InternshipList;
 import seedu.internsprint.util.Ui;
 
+/**
+ * Entry point of the InternSprint application.
+ */
 public class InternSprint {
     private final InternshipList internships;
 
@@ -21,12 +24,18 @@ public class InternSprint {
         new InternSprint().run();
     }
 
+    /**
+     * Runs the InternSprint program until termination.
+     */
     public void run() {
         Ui.showWelcomeMessage();
         runCommandLoopUntilExitCommand();
         exit();
     }
 
+    /**
+     * Reads the user command and executes it, until the user issues the exit command.
+     */
     private void runCommandLoopUntilExitCommand() {
         CommandResult result = StorageHandler.loadInternships(internships);
         Ui.showResultToUser(result);
@@ -38,7 +47,7 @@ public class InternSprint {
                 result = command.execute(internships);
                 Ui.showResultToUser(result);
                 isExit = result.isExit();
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                 Ui.showError(e.getMessage());
             } finally {
                 System.out.println();
@@ -46,6 +55,9 @@ public class InternSprint {
         }
     }
 
+    /**
+     * Exits the program after displaying the exit message.
+     */
     private void exit() {
         Ui.showExitMessage();
         System.exit(0);
