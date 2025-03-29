@@ -1,6 +1,6 @@
 [{
-    "role": "Software Engineer",
-    "techStack": "Java, Python",
-    "type": "software",
-    "companyName": "Google"
+    "role": "IT Intern",
+    "type": "general",
+    "department": "IT",
+    "companyName": "UBS"
 }]
